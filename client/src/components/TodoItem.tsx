@@ -1,18 +1,29 @@
-import React from 'react'
+import React from "react"
 
-const Todo: React.FC = () => {
+type Props = TodoProps & {
+  updateTodo: (todo: ITodo) => void
+  deleteTodo: (_id: string) => void
+}
 
+const Todo: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
+  const checkTodo: string = todo.status ? `line-through` : ""
   return (
-    <div className='Card'>
-      <div className='Card--text'>
-        <h1 className=''>Name</h1>
-        <span className=''>Description</span>
+    <div className="Card">
+      <div className="Card--text">
+        <h1 className={checkTodo}>{todo.name}</h1>
+        <span className={checkTodo}>{todo.description}</span>
       </div>
-      <div className='Card--button'>
-        <button className='Card--button__done'>
+      <div className="Card--button">
+        <button
+          onClick={() => updateTodo(todo)}
+          className={todo.status ? `hide-button` : "Card--button__done"}
+        >
           Complete
         </button>
-        <button className='Card--button__delete'>
+        <button
+          onClick={() => deleteTodo(todo._id)}
+          className="Card--button__delete"
+        >
           Delete
         </button>
       </div>
